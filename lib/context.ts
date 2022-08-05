@@ -1,9 +1,4 @@
 import { createContext } from "react";
+import { IUserContext } from "../types";
 
-// TODO: User strong typing
-export interface CurrentUser {
-  user: any, 
-  username: any,
-}
-
-export const UserContext = createContext<CurrentUser>({user: null, username: null})
+export const UserContext = createContext<IUserContext>({user: null, username: null})
