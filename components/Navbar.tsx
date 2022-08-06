@@ -5,7 +5,7 @@ import { UserContext } from '../lib/context';
 
 export function Navbar() {
   const { user, username } = useContext(UserContext);
-  
+
   return (<nav className="navbar">
     <ul>
       <li>
@@ -25,7 +25,7 @@ export function Navbar() {
           <li>
             <Link href={`/${username}`}>
               <a>
-                <Image alt='User Profile Image' src={user?.photoURL} width={40} height={40} />
+                <Image alt='User Profile Image' src={user?.photoURL ?? '/google.png'} width={40} height={40} />
               </a>
             </Link>
           </li>

@@ -47,17 +47,17 @@ function UsernameForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const userRef = doc(db, 'users', user.uid)
+    const userRef = doc(db, 'users', user!.uid)
     const usernameRef = doc(db, 'usernames', formValue)
 
     const batch = writeBatch(db);
-    batch.set(userRef, { username: formValue, photoUrl: user.photoUrl ?? null, displayName: user.displayName })
-    batch.set(usernameRef, { uid: user.uid })
+    batch.set(userRef, { username: formValue, photoURL: user!.photoURL ?? null, displayName: user!.displayName })
+    batch.set(usernameRef, { uid: user!.uid })
     await batch.commit();
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Force form value typed in form to match correct format
+    // Force form valu e typed in form to match correct format
     const val = e.target.value;
     const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 

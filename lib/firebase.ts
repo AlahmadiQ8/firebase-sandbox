@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, doc, DocumentData, getDoc, getDocs, getFirestore, limit, query, serverTimestamp, Timestamp, where } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import once from 'lodash/once'
+import { IFireStoreUser, IPost } from "../types";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcBRoRuIjAT7HLHNTsg0I5ZXQla1fwwAw",
@@ -20,3 +21,23 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
+
+export async function getUserWithUsername(username: string) {
+  const userQuery = query(collection(db, 'users'), where('username', '==', username), limit(1));
+  const querySnapshot = await getDocs(userQuery)
+
+  if (querySnapshot.empty) {
+    throw new Error(`No user found with username '${username}'`)
+  }
+  
+  return querySnapshot;
+}
+
+export function serializePost(document: DocumentData): IPost {
+  const data = document.data();
+  return {
+    ...data,
+    createdAt: (data.createdAt as Timestamp).toMillis(),
+    updatedAt: (data.updatedAt as Timestamp).toMillis(),
+  }
+}

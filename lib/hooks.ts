@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./firebase";
 import { doc, onSnapshot } from "firebase/firestore"; 
 import { IUserContext } from '../types'
+import { User } from "firebase/auth";
 
 export function useUserData(): IUserContext {
   const [user] = useAuthState(auth);
@@ -23,5 +24,5 @@ export function useUserData(): IUserContext {
     return unsubscribe
   }, [user])
 
-  return {user, username}
+  return {user: user as User, username}
 }
