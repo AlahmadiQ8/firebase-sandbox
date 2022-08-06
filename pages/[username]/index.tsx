@@ -28,10 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query: urlQuery }
     limit(5)
   )
 
-  const postsSnapshot = await getDocs(postsQuery);
-  postsSnapshot.forEach(doc => console.log(doc.data()));
-
-  const posts = postsSnapshot.docs.map(serializePost);
+  const posts = (await getDocs(postsQuery)).docs.map(serializePost);
 
   return {
     props: { user, posts },

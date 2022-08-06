@@ -21,6 +21,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
+export const fromMillis = Timestamp.fromMillis;
 
 export async function getUserWithUsername(username: string) {
   const userQuery = query(collection(db, 'users'), where('username', '==', username), limit(1));
@@ -35,8 +36,10 @@ export async function getUserWithUsername(username: string) {
 
 export function serializePost(document: DocumentData): IPost {
   const data = document.data();
+
   return {
     ...data,
+    id: document.id,
     createdAt: (data.createdAt as Timestamp).toMillis(),
     updatedAt: (data.updatedAt as Timestamp).toMillis(),
   }
