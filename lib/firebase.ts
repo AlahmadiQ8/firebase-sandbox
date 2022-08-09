@@ -36,7 +36,7 @@ export async function getUserWithUsername(username: string) {
 
 export function serializePost(document: DocumentData): IPost {
   const data = document.data();
-
+  
   return {
     ...data,
     id: document.id,
