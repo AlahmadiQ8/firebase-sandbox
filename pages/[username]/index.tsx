@@ -18,6 +18,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query: urlQuery }
   const { username } = urlQuery;
 
   const userSnapshot = await getUserWithUsername(username as string);
+
+  if (userSnapshot == null) {
+    return {
+      notFound: true
+    }
+  }
+
   const id = userSnapshot.docs[0].id;
   const user = userSnapshot.docs[0].data() as IFireStoreUser;
   

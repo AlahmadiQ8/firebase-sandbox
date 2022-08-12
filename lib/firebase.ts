@@ -26,12 +26,8 @@ export const fromMillis = Timestamp.fromMillis;
 export async function getUserWithUsername(username: string) {
   const userQuery = query(collection(db, 'users'), where('username', '==', username), limit(1));
   const querySnapshot = await getDocs(userQuery)
-
-  if (querySnapshot.empty) {
-    throw new Error(`No user found with username '${username}'`)
-  }
   
-  return querySnapshot;
+  return querySnapshot.empty ? null : querySnapshot;
 }
 
 export function serializePost(document: DocumentData): IPost {

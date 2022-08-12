@@ -37,7 +37,10 @@ export default function PostPage(props: { post: IPost, path: string }) {
 
 export const getStaticProps: GetStaticProps<{ post: IPost, path: string }, IParams> = async (context) => {
   const { username, slug } = context.params!;
-  const user = (await getUserWithUsername(username)).docs[0];
+
+  // We will always return a valid user here unless our firestore data is corrupted
+  const user = (await getUserWithUsername(username))!.docs[0];
+  
   const postRef = doc(user.ref, `posts/${slug}`)
   const post = serializePost(await getDoc(postRef));
   const path = postRef.path

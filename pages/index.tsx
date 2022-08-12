@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { collectionGroup, getDocs, limit, orderBy, query, startAfter, startAt, where } from 'firebase/firestore';
 import { db, fromMillis, serializePost } from '../lib/firebase';
 import { PostFeed } from '../components/PostFeed';
+import Metatags from '../components/Metatags';
 
 const BATCH_SIZE = 1;
 
@@ -44,6 +45,7 @@ const Home: NextPage<{ posts: IPost[] }> = (props) => {
   
   return (
     <main>
+      <Metatags title='Home Page' description='tring this metatags component' />
       <PostFeed posts={posts} />
 
       {!loading && !postsEnd && <button onClick={getMorePosts}>Load more</button>}
