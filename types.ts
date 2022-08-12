@@ -1,4 +1,5 @@
 import { User } from "firebase/auth"
+import { FieldValue } from "firebase/firestore"
 
 // TODO: User strong typing
 export interface IUserContext {
@@ -19,6 +20,7 @@ export interface IPost {
   published: boolean,
   username: string,
   heartCount: number
-  createdAt: number,
-  updatedAt: number
+  createdAt: number | FieldValue,
+  updatedAt: number | FieldValue,
+  uid: string,
 }

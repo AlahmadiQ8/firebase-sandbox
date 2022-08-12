@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { collection, doc, DocumentData, getDoc, getDocs, getFirestore, limit, query, serverTimestamp, Timestamp, where } from "firebase/firestore";
+import { collection, DocumentData, getDocs, getFirestore, limit, query, Timestamp, where } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import once from 'lodash/once'
-import { IFireStoreUser, IPost } from "../types";
+import { IPost } from "../types";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcBRoRuIjAT7HLHNTsg0I5ZXQla1fwwAw",
