@@ -52,7 +52,7 @@ function PostManager() {
 }
 
 function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, postRef: DocumentReference<DocumentData>, preview: boolean }) {
-  const { register, handleSubmit, reset, watch } = useForm({ defaultValues, mode: 'onChange' });
+  const { register, handleSubmit, reset, watch, formState: { isValid, isDirty, errors } } = useForm({ defaultValues, mode: 'onChange' });
 
   const updatePost = async ({ content, published }: { content: string, published: boolean }) => {
     await updateDoc(postRef, { content, published, updatedAt: serverTimestamp() });
@@ -70,14 +70,20 @@ function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, p
 
       <div className={preview ? styles.hidden : styles.controls}>
 
-        <textarea {...register('content')}></textarea>
+        <textarea {...register('content', {
+          maxLength: { value: 20000, message: 'content is too long' },
+          minLength: { value: 10, message: 'content is too short' },
+          required: { value: true, message: 'content is required'}
+        })}></textarea>
+
+        {errors.content && <p className="text-danger">{errors.content.message}</p>}
 
         <fieldset>
           <input className={styles.checkbox} type="checkbox" {...register('published')} />
           <label>Published</label>
         </fieldset>
 
-        <button type="submit" className="btn-green">
+        <button type="submit" className="btn-green" disabled={!isDirty || !isValid}>
           Save Changes
         </button>
       </div>
