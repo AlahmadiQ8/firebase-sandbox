@@ -1,10 +1,10 @@
-import { signInWithPopup, signOut } from "firebase/auth"
+import { signInWithPopup, signOut } from "firebase/auth";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
-import Image from "next/image"
+import Image from "next/image";
 import { useCallback, useContext, useEffect, useState } from "react";
 import debounce from 'lodash/debounce';
 import { UserContext } from "../lib/context";
-import { auth, db, googleProvider } from "../lib/firebase"
+import { auth, db, googleProvider } from "../lib/firebase";
 import { registerVersion } from "firebase/app";
 
 export default function EnterPage() {
@@ -23,8 +23,8 @@ export default function EnterPage() {
 
 function SignInButton() {
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
-  }
+    await signInWithPopup(auth, googleProvider);
+  };
 
   return (
     <button className="btn-google" onClick={signInWithGoogle}>
@@ -47,12 +47,12 @@ function UsernameForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const userRef = doc(db, 'users', user!.uid)
-    const usernameRef = doc(db, 'usernames', formValue)
+    const userRef = doc(db, 'users', user!.uid);
+    const usernameRef = doc(db, 'usernames', formValue);
 
     const batch = writeBatch(db);
-    batch.set(userRef, { username: formValue, photoURL: user!.photoURL ?? null, displayName: user!.displayName })
-    batch.set(usernameRef, { uid: user!.uid })
+    batch.set(userRef, { username: formValue, photoURL: user!.photoURL ?? null, displayName: user!.displayName });
+    batch.set(usernameRef, { uid: user!.uid });
     await batch.commit();
   };
 
@@ -73,7 +73,7 @@ function UsernameForm() {
       setLoading(true);
       setIsValid(false);
     }
-  }
+  };
 
   useEffect(() => {
     checkUsername(formValue);
@@ -89,7 +89,7 @@ function UsernameForm() {
         setLoading(false);
       }
     }, 500)
-    , [])
+    , []);
 
   if (username) return null;
 

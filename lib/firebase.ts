@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { collection, DocumentData, getDocs, getFirestore, limit, query, Timestamp, where } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import once from 'lodash/once'
+import once from 'lodash/once';
 import { IPost } from "../types";
 
 const firebaseConfig = {
@@ -25,7 +25,7 @@ export const fromMillis = Timestamp.fromMillis;
 
 export async function getUserWithUsername(username: string) {
   const userQuery = query(collection(db, 'users'), where('username', '==', username), limit(1));
-  const querySnapshot = await getDocs(userQuery)
+  const querySnapshot = await getDocs(userQuery);
   
   return querySnapshot.empty ? null : querySnapshot;
 }
@@ -38,5 +38,5 @@ export function serializePost(document: DocumentData): IPost {
     id: document.id,
     createdAt: (data.createdAt as Timestamp).toMillis(),
     updatedAt: (data.updatedAt as Timestamp).toMillis(),
-  }
+  };
 }

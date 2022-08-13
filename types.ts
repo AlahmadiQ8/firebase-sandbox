@@ -1,5 +1,5 @@
-import { User } from "firebase/auth"
-import { FieldValue } from "firebase/firestore"
+import { User } from "firebase/auth";
+import { FieldValue } from "firebase/firestore";
 
 // TODO: User strong typing
 export interface IUserContext {

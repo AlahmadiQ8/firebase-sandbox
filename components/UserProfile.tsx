@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { IFireStoreUser } from "../types"
+import Image from "next/image";
+import { IFireStoreUser } from "../types";
 
 export function UserProfile({ user }: { user: IFireStoreUser}) {
   return (
@@ -10,5 +10,5 @@ export function UserProfile({ user }: { user: IFireStoreUser}) {
       </p>
       <h1>{user.displayName || 'Anonymous User'}</h1>
     </div>
-  )
+  );
 }

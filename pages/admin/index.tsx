@@ -19,7 +19,7 @@ export default function AdminPostsPage({ }) {
         <CreateNewPost />
       </AuthCheck>
     </main>
-  )
+  );
 }
 
 function PostList() {
@@ -67,14 +67,14 @@ function CreateNewPost() {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       heartCount: 0,
-    }
+    };
 
     await setDoc(newPostRef, data);
 
     toast.success('Post created!');
 
-    router.push(`/admin/${slug}`)
-  }
+    router.push(`/admin/${slug}`);
+  };
 
   return (
     <form onSubmit={createPost}>
@@ -91,5 +91,5 @@ function CreateNewPost() {
         Create New Post
       </button>
     </form>
-  )
+  );
 }

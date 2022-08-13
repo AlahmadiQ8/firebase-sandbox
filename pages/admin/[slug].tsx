@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { AuthCheck } from "../../components/AuthCheck";
+import { ImageUploader } from "../../components/ImageUploader";
 import { auth, db } from "../../lib/firebase";
 import styles from '../../styles/Admin.module.css';
 import { IPost } from "../../types";
@@ -16,7 +17,7 @@ export default function AdminPostPage({ }) {
     <AuthCheck>
       <PostManager />
     </AuthCheck>
-  )
+  );
 }
 
 function PostManager() {
@@ -35,7 +36,7 @@ function PostManager() {
             <h1>{post.title}</h1>
             <p>ID: {post.slug}</p>
 
-            <PostForm postRef={postRef} defaultValues={post} preview={preview} />
+            <PostForm postRef={postRef} defaultValues={post as IPost} preview={preview} />
           </section>
 
           <aside>
@@ -48,7 +49,7 @@ function PostManager() {
         </>
       )}
     </main>
-  )
+  );
 }
 
 function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, postRef: DocumentReference<DocumentData>, preview: boolean }) {
@@ -57,8 +58,8 @@ function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, p
   const updatePost = async ({ content, published }: { content: string, published: boolean }) => {
     await updateDoc(postRef, { content, published, updatedAt: serverTimestamp() });
     reset({ content, published });
-    toast.success('Post updated successfully!')
-  }
+    toast.success('Post updated successfully!');
+  };
 
   return (
     <form onSubmit={handleSubmit(updatePost)}>
@@ -69,6 +70,8 @@ function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, p
       )}
 
       <div className={preview ? styles.hidden : styles.controls}>
+
+        <ImageUploader />
 
         <textarea {...register('content', {
           maxLength: { value: 20000, message: 'content is too long' },
@@ -88,5 +91,5 @@ function PostForm({ defaultValues, postRef, preview }: { defaultValues: IPost, p
         </button>
       </div>
     </form>
-  )
+  );
 }

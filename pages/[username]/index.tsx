@@ -11,7 +11,7 @@ export default function UserProfilePage({ user, posts }: { user: IFireStoreUser,
       <UserProfile user={user} />
       <PostFeed posts={posts} />
     </main>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query: urlQuery }) => {
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query: urlQuery }
   if (userSnapshot == null) {
     return {
       notFound: true
-    }
+    };
   }
 
   const id = userSnapshot.docs[0].id;
@@ -33,11 +33,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query: urlQuery }
     where('published', '==', true),
     orderBy('createdAt', 'desc'),
     limit(5)
-  )
+  );
 
   const posts = (await getDocs(postsQuery)).docs.map(serializePost);
 
   return {
     props: { user, posts },
   };
-}
+};

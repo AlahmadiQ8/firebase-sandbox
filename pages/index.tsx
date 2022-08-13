@@ -1,5 +1,5 @@
-import type { GetServerSideProps, NextPage } from 'next'
-import { Loader } from '../components/Loader'
+import type { GetServerSideProps, NextPage } from 'next';
+import { Loader } from '../components/Loader';
 import { IPost } from '../types';
 import { useState } from 'react';
 import { collectionGroup, getDocs, limit, orderBy, query, startAfter, startAt, where } from 'firebase/firestore';
@@ -13,7 +13,7 @@ const postsQueryAll = query(
   collectionGroup(db, 'posts'),
   where('published', '==', true),
   orderBy('createdAt', 'desc')
-)
+);
 
 const Home: NextPage<{ posts: IPost[] }> = (props) => {
   const [posts, setPosts] = useState(props.posts);
@@ -31,7 +31,7 @@ const Home: NextPage<{ posts: IPost[] }> = (props) => {
       postsQueryAll,
       startAfter(cursor),
       limit(BATCH_SIZE),
-    )
+    );
 
     const newPosts = (await getDocs(postsQuery)).docs.map((d) => d.data()) as IPost[];
     
@@ -41,7 +41,7 @@ const Home: NextPage<{ posts: IPost[] }> = (props) => {
     if (newPosts.length < BATCH_SIZE) {
       setPostsEnd(true);
     }
-  }
+  };
   
   return (
     <main>
@@ -54,14 +54,14 @@ const Home: NextPage<{ posts: IPost[] }> = (props) => {
 
       {postsEnd && 'You have reached the end!'}
     </main>
-  )
-}
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const postsQuery = query(
     postsQueryAll,
     limit(BATCH_SIZE)
-  )
+  );
 
   const postsSnapshot = await getDocs(postsQuery);
   const posts = postsSnapshot.docs.map(serializePost);
@@ -69,7 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: { posts } // will be passed to the page component as props
   };
-}
+};
 
-export default Home
+export default Home;
 
