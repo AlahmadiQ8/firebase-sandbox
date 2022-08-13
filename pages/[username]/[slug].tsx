@@ -6,6 +6,8 @@ import { PostContent } from '../../components/PostContent';
 import { db, getUserWithUsername, serializePost } from "../../lib/firebase";
 import { IPost } from "../../types";
 import styles from '../../styles/Post.module.css';
+import { AuthCheck } from "../../components/AuthCheck";
+import { HeartButton } from "../../components/HeartButton";
 
 interface IParams extends ParsedUrlQuery {
   username: string,
@@ -29,6 +31,10 @@ export default function PostPage(props: { post: IPost, path: string }) {
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
 
+        <AuthCheck>
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
+
       </aside>
     </main>
   );
@@ -40,7 +46,7 @@ export const getStaticProps: GetStaticProps<{ post: IPost, path: string }, IPara
 
   // We will always return a valid user here unless our firestore data is corrupted
   const user = (await getUserWithUsername(username))!.docs[0];
-  
+
   const postRef = doc(user.ref, `posts/${slug}`);
   const post = serializePost(await getDoc(postRef));
   const path = postRef.path;
